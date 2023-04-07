@@ -18,7 +18,7 @@ A large application delivered as a network of small microservices requires real-
     - Handling DB migrations for other dependent services and synchronizing them is a challenge.
 2. Running Integration tests:Testing code changes for dependent features on a local machine is always painful.
 
-## # Solutions
+## Solutions
 
 There are multiple ways to set up a microservices stack locally.
 
