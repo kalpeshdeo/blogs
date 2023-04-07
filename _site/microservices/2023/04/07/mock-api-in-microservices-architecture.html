@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mock API in Microservices Architecture | One2N blogs</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Mock API in Microservices Architecture" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Overview" />
+<meta property="og:description" content="Overview" />
+<link rel="canonical" href="http://localhost:4000/microservices/2023/04/07/mock-api-in-microservices-architecture.html" />
+<meta property="og:url" content="http://localhost:4000/microservices/2023/04/07/mock-api-in-microservices-architecture.html" />
+<meta property="og:site_name" content="One2N blogs" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-04-07T15:30:12+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mock API in Microservices Architecture" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-04-07T15:30:12+05:30","datePublished":"2023-04-07T15:30:12+05:30","description":"Overview","headline":"Mock API in Microservices Architecture","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/microservices/2023/04/07/mock-api-in-microservices-architecture.html"},"url":"http://localhost:4000/microservices/2023/04/07/mock-api-in-microservices-architecture.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="One2N blogs" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">One2N blogs</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Mock API in Microservices Architecture</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-04-07T15:30:12+05:30" itemprop="datePublished">Apr 7, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="overview"><strong>Overview</strong></h2>
+
+<p>Setting up the entire stack locally isn’t an easy task, especially when there are multiple microservices involved. If this is something you’re already struggling with then you are at the right place. We will discuss the solution by using Mock APIs.</p>
+
+<h2 id="challenges">Challenges</h2>
+
+<p>A large application delivered as a network of small microservices requires real-time inter-service communication to function as a single application. As the number of microservices increase, this architecture becomes even more challenging. Here, we will focus only on synchronous communication using HTTP/S APIs. Most likely one would arrive at a situation with the following problems:</p>
+
+<ol>
+  <li>Setting up individual microservice on a developer’s local machine
+    <ul>
+      <li>Developer needs to configure other dependent service’s source code as well and keep pulling the latest code. (It is still okay with small dev team and having 3-5 microservices)</li>
+      <li>On each latest pull, developer needs to make sure it doesn’t break anything</li>
+      <li>Handling DB migrations for other dependent services and synchronizing them is a challenge.</li>
+    </ul>
+  </li>
+  <li>Running Integration tests:Testing code changes for dependent features on a local machine is always painful.</li>
+</ol>
+
+<h2 id="-solutions"># Solutions</h2>
+
+<p>There are multiple ways to set up a microservices stack locally.</p>
+
+<ol>
+  <li>Clone the repos of all the services and run them on the local machine. This is not feasible if you have many microservices.
+    <ul>
+      <li>This needs sufficient resources available on the Dev machine to run all the services.</li>
+      <li>If a developer pulls the latest code from other dependent services, the code could break for no fault on their own.</li>
+      <li>DB migrations and synchronizing them is a challenge</li>
+    </ul>
+  </li>
+  <li>Have a dedicated DEV environment deployed on the cloud and let your local service communicate with other services.
+    <ul>
+      <li>This requires extra conditional code to bypass the authentication and authorization as your local service is now communicating with other services on the Dev environment.</li>
+      <li>It ends with data inconsistency as all the developers are going to use the same DEV environment. It is not possible or cost-effective to provide a separate DEV environment to all developers.</li>
+      <li>Challenge with background workers, where jobs will be picked up by workers running on dev env instead of your local worker.</li>
+    </ul>
+  </li>
+  <li>Have a Mock server that will return the mock response for the APIs. This is a better solution than the above two, but again, this will add an extra burden on the Dev team to maintain this server.</li>
+</ol>
+
+<p>We tried all the above solutions and ended up with <a href="https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/setting-up-mock/">Mock Servers using Postman</a>.This is a very easy and simple solution to simulate the real APIs. It not only solves the local machine setup issue but it is very useful when your application is in early-stage development, where all the microservices are under development. In that case, you can mock the responses for other services and start the development of your service without waiting for others. This also makes it easy for frontend teams to proceed with their feature development by using mock APIs that simulate both success and error conditions.</p>
+
+<h2 id="mock-apis">Mock APIs</h2>
+
+<p>Let’s see how a mock API server works by taking an example of a User service with a simple functionality to list users.</p>
+
+<h3 id="request">Request</h3>
+
+<p><strong>GET</strong> https://usersvc.yourdomain.com/v1/users</p>
+
+<h3 id="response">Response</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "data": {
+    "users": [
+      {
+        "id": "98a4b655-9b0c-47f0-bf35-c56e4fb5fe13",
+        "name": "FirstUserName"
+      },
+      {
+        "id": "0b19b534-83f3-4072-9a9c-eb282fe2e373",
+        "name": "SecondUserName"
+      }
+    ]
+  }
+}
+</code></pre></div></div>
+
+<p><em><strong>Note</strong>: You need to be signed into a Postman account to create a mock server</em></p>
+
+<ol>
+  <li>Create a collection</li>
+  <li>Create your API requests and make sure those are saved to a collection</li>
+  <li>
+    <p>Create a mock server from the collection info menu</p>
+
+    <p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c2d387c-6553-4a3e-a046-b4c2cd59c405/image.png" alt="image.png" /></p>
+  </li>
+  <li>This will generate the mock server URL like this<code class="language-plaintext highlighter-rouge">https://18b77921-cc85-4819-811d-0403eec04251.mock.pstmn.io</code></li>
+  <li>
+    <p>Add an example to all the requests</p>
+
+    <p><a href="https://lh5.googleusercontent.com/waCW7XA9PDichJSIXAbmQN1fgJzpS5EeRhCCTGNvRUE3DFlKqogxT9tfbFLt7irztSfIV0HL848bzp7IqWYeOkvwKIToX0vyfWK15mssP_WKi4czx3mxCVo-QeOfVMhgIan3veyT">https://lh5.googleusercontent.com/waCW7XA9PDichJSIXAbmQN1fgJzpS5EeRhCCTGNvRUE3DFlKqogxT9tfbFLt7irztSfIV0HL848bzp7IqWYeOkvwKIToX0vyfWK15mssP_WKi4czx3mxCVo-QeOfVMhgIan3veyT</a></p>
+  </li>
+  <li>
+    <p>Save the expected response JSON with HTTP response code</p>
+
+    <p><a href="https://lh4.googleusercontent.com/5jwAJyhqnXcfE7DSdvZGTKmyIYi1sPktEPpEOazML0rvAZf4YYcU9PXQ491yzPil9tJTCLUUm6QluFjbni4y9JD2CPtp7tBqyYKeSS_qmRp9X3wUbCgZk9X4rrS-PB-s-c5tFO-5">https://lh4.googleusercontent.com/5jwAJyhqnXcfE7DSdvZGTKmyIYi1sPktEPpEOazML0rvAZf4YYcU9PXQ491yzPil9tJTCLUUm6QluFjbni4y9JD2CPtp7tBqyYKeSS_qmRp9X3wUbCgZk9X4rrS-PB-s-c5tFO-5</a></p>
+  </li>
+  <li>
+    <p>Now just replace the service URL with mock server URL to access the APIs like this<code class="language-plaintext highlighter-rouge">https://18b77921-cc85-4819-811d-0403eec04251.mock.pstmn.io/v1/users</code>.This will return the list of users saved earlier.</p>
+
+    <p><a href="https://lh5.googleusercontent.com/Ho-zek1vHqjzVQ_oUhOXv0MZVu_EjHzYZCRFeDYPBsAYjT5tZJHbHpH6L2wli6IzOIuatSZ4To_8ZkpIB2PorPOwyypFWtJSobeGrB51DN6x2D3_9aCecG49g2Be-YJYu1Eb_2Le">https://lh5.googleusercontent.com/Ho-zek1vHqjzVQ_oUhOXv0MZVu_EjHzYZCRFeDYPBsAYjT5tZJHbHpH6L2wli6IzOIuatSZ4To_8ZkpIB2PorPOwyypFWtJSobeGrB51DN6x2D3_9aCecG49g2Be-YJYu1Eb_2Le</a></p>
+  </li>
+  <li>
+    <p>Query params: You can add multiple example responses for query params, Postman Mock server matches the query param and returns the matched response.e.g. We have saved two examples, one for each.</p>
+
+    <p><a href="https://lh6.googleusercontent.com/Aszm2TEsiC0r424leJ6Z3d6HTZgthZVNKEZs-bgCX8vz8Fw574yNiUA55tx5_OsMD8XHDduNk-mWfWJ-n0tuB-um_FSj7-DvLs5fKchAI7-PxdF9m7SW--EE0p2mY2bO0lV8tKpy">https://lh6.googleusercontent.com/Aszm2TEsiC0r424leJ6Z3d6HTZgthZVNKEZs-bgCX8vz8Fw574yNiUA55tx5_OsMD8XHDduNk-mWfWJ-n0tuB-um_FSj7-DvLs5fKchAI7-PxdF9m7SW–EE0p2mY2bO0lV8tKpy</a></p>
+  </li>
+  <li>
+    <p>Mock server will return the user details as per <code class="language-plaintext highlighter-rouge">user_id</code> param</p>
+
+    <p><a href="https://lh5.googleusercontent.com/zvLWDiOxf2_y4SCwqFJpaQ0o9cl3C3W1CC3d3_pMHAUDXf46yGHB8Lo_l0wcAA6XugfRVQiP5TBapkaGk3qfIBae55-erYZ4wuGCRlELHzjoQUnAaMpS9Bj3X5RxL_AzR4LZa9Ta">https://lh5.googleusercontent.com/zvLWDiOxf2_y4SCwqFJpaQ0o9cl3C3W1CC3d3_pMHAUDXf46yGHB8Lo_l0wcAA6XugfRVQiP5TBapkaGk3qfIBae55-erYZ4wuGCRlELHzjoQUnAaMpS9Bj3X5RxL_AzR4LZa9Ta</a></p>
+  </li>
+  <li>Headers: Same as query params, we can have multiple responses as per headers as well. But in case of headers we need to set <code class="language-plaintext highlighter-rouge">x-mock-match-request-body header</code> to true to enable request body matching and also set <code class="language-plaintext highlighter-rouge">x-mock-match-request-headers</code> for matching incoming mock request headers while making an API call to the mock server.</li>
+</ol>
+
+<p>Once you have all the API requests added with examples in the collection, you can configure the mock server URL in the service. You can then call any of the APIs using the mock server URL and API request path.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Postman Mock servers unblock the developer to start the implementation from day one for dependent features. And it simplifies the service configuration on the local machine.</p>
+
+  </div><a class="u-url" href="/microservices/2023/04/07/mock-api-in-microservices-architecture.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">One2N blogs</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">One2N blogs</li><li><a class="u-email" href="mailto:your-email@example.com">your-email@example.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
