@@ -67,29 +67,29 @@ Let’s see how a mock API server works by taking an example of a User service w
 2. Create your API requests and make sure those are saved to a collection
 3. Create a mock server from the collection info menu
 
-    
-    ![image.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c2d387c-6553-4a3e-a046-b4c2cd59c405/image.png)
+    ![image1](https://user-images.githubusercontent.com/9951874/230603197-86f157fb-3593-430c-aacc-b71bafd75de1.png)
     
 4. This will generate the mock server URL like this`https://18b77921-cc85-4819-811d-0403eec04251.mock.pstmn.io`
 5. Add an example to all the requests
     
-    [https://lh5.googleusercontent.com/waCW7XA9PDichJSIXAbmQN1fgJzpS5EeRhCCTGNvRUE3DFlKqogxT9tfbFLt7irztSfIV0HL848bzp7IqWYeOkvwKIToX0vyfWK15mssP_WKi4czx3mxCVo-QeOfVMhgIan3veyT](https://lh5.googleusercontent.com/waCW7XA9PDichJSIXAbmQN1fgJzpS5EeRhCCTGNvRUE3DFlKqogxT9tfbFLt7irztSfIV0HL848bzp7IqWYeOkvwKIToX0vyfWK15mssP_WKi4czx3mxCVo-QeOfVMhgIan3veyT)
-    
+   ![image2](https://user-images.githubusercontent.com/9951874/230603282-a63286d7-e8c6-4b46-ac5d-c8f5bdb1ceac.png)
+
 6. Save the expected response JSON with HTTP response code
-    
-    [https://lh4.googleusercontent.com/5jwAJyhqnXcfE7DSdvZGTKmyIYi1sPktEPpEOazML0rvAZf4YYcU9PXQ491yzPil9tJTCLUUm6QluFjbni4y9JD2CPtp7tBqyYKeSS_qmRp9X3wUbCgZk9X4rrS-PB-s-c5tFO-5](https://lh4.googleusercontent.com/5jwAJyhqnXcfE7DSdvZGTKmyIYi1sPktEPpEOazML0rvAZf4YYcU9PXQ491yzPil9tJTCLUUm6QluFjbni4y9JD2CPtp7tBqyYKeSS_qmRp9X3wUbCgZk9X4rrS-PB-s-c5tFO-5)
-    
+
+    ![image3](https://user-images.githubusercontent.com/9951874/230603443-2e97c225-572d-455e-b73e-6fcc6d48ef4f.png)
+
 7. Now just replace the service URL with mock server URL to access the APIs like this`https://18b77921-cc85-4819-811d-0403eec04251.mock.pstmn.io/v1/users`.This will return the list of users saved earlier.
     
-    [https://lh5.googleusercontent.com/Ho-zek1vHqjzVQ_oUhOXv0MZVu_EjHzYZCRFeDYPBsAYjT5tZJHbHpH6L2wli6IzOIuatSZ4To_8ZkpIB2PorPOwyypFWtJSobeGrB51DN6x2D3_9aCecG49g2Be-YJYu1Eb_2Le](https://lh5.googleusercontent.com/Ho-zek1vHqjzVQ_oUhOXv0MZVu_EjHzYZCRFeDYPBsAYjT5tZJHbHpH6L2wli6IzOIuatSZ4To_8ZkpIB2PorPOwyypFWtJSobeGrB51DN6x2D3_9aCecG49g2Be-YJYu1Eb_2Le)
+    ![image4](https://user-images.githubusercontent.com/9951874/230603484-3e692423-beaf-4685-a1dc-08e0a6eb9d71.png)
     
 8. Query params: You can add multiple example responses for query params, Postman Mock server matches the query param and returns the matched response.e.g. We have saved two examples, one for each.
     
-    [https://lh6.googleusercontent.com/Aszm2TEsiC0r424leJ6Z3d6HTZgthZVNKEZs-bgCX8vz8Fw574yNiUA55tx5_OsMD8XHDduNk-mWfWJ-n0tuB-um_FSj7-DvLs5fKchAI7-PxdF9m7SW--EE0p2mY2bO0lV8tKpy](https://lh6.googleusercontent.com/Aszm2TEsiC0r424leJ6Z3d6HTZgthZVNKEZs-bgCX8vz8Fw574yNiUA55tx5_OsMD8XHDduNk-mWfWJ-n0tuB-um_FSj7-DvLs5fKchAI7-PxdF9m7SW--EE0p2mY2bO0lV8tKpy)
+    ![image5](https://user-images.githubusercontent.com/9951874/230603539-11dd6e49-7357-4f85-86e2-ea5844e8d291.png)
     
 9. Mock server will return the user details as per `user_id` param
     
-    [https://lh5.googleusercontent.com/zvLWDiOxf2_y4SCwqFJpaQ0o9cl3C3W1CC3d3_pMHAUDXf46yGHB8Lo_l0wcAA6XugfRVQiP5TBapkaGk3qfIBae55-erYZ4wuGCRlELHzjoQUnAaMpS9Bj3X5RxL_AzR4LZa9Ta](https://lh5.googleusercontent.com/zvLWDiOxf2_y4SCwqFJpaQ0o9cl3C3W1CC3d3_pMHAUDXf46yGHB8Lo_l0wcAA6XugfRVQiP5TBapkaGk3qfIBae55-erYZ4wuGCRlELHzjoQUnAaMpS9Bj3X5RxL_AzR4LZa9Ta)
+    ![image6](https://user-images.githubusercontent.com/9951874/230603659-390c2a13-fd9e-436e-995d-5dafdab1b2c3.png)
+
     
 10. Headers: Same as query params, we can have multiple responses as per headers as well. But in case of headers we need to set `x-mock-match-request-body header` to true to enable request body matching and also set `x-mock-match-request-headers` for matching incoming mock request headers while making an API call to the mock server.
 
