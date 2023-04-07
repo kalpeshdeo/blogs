@@ -1,3 +1,9 @@
+---
+layout: post
+title:  "Mock API in Microservices Architecture"
+date:   2023-04-07 15:30:12 +0530
+categories: microservices
+---
 ## **Overview**
 
 Setting up the entire stack locally isn't an easy task, especially when there are multiple microservices involved. If this is something you’re already struggling with then you are at the right place. We will discuss the solution by using Mock APIs.
